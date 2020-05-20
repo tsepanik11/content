@@ -70,7 +70,7 @@ def generate_release_notes_summary(release_notes_dict, version, asset_id):
 
     for pack_name, pack_versions_dict in sorted(release_notes_dict.items()):
         for pack_version, pack_release_notes in sorted(pack_versions_dict.items(),
-                                                       key=lambda v_1, v_2: LooseVersion(v_1) <= LooseVersion(v_2)):
+                                                       key=lambda pack_item: LooseVersion(pack_item[0])):
             release_notes += '### {} {}\n{}\n'.format(pack_name, pack_version, pack_release_notes)
 
     with open(RELEASE_NOTES_FILE, 'w') as outfile:
