@@ -12,7 +12,7 @@ args:
   required: true
   secret: false
 - default: false
-  description: First option for a user reply. "yes" is the default.
+  description: First option for a user reply. "yes" is the default...
   isArray: false
   name: option1
   required: false

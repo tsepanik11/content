@@ -4,6 +4,7 @@ commonfields:
 name: AbuseIPDBPopulateIndicators
 script: |-
   BLACKLISTED = "Bad"
+
   res = demisto.executeCommand("abuseipdb-get-blacklist", {
       "days" : demisto.args().get("days"),
       "limit" : demisto.args().get("limit")

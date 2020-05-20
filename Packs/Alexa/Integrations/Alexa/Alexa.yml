@@ -17,7 +17,7 @@ configuration:
   name: insecure
   required: false
   type: 8
-description: Alexa provides website ranking information that can be useful in determining
+description: Alexa provides website ranking information that can be useful in determining2
   if the domain in question has a strong web presence.
 display: Alexa Rank Indicator
 name: Alexa Rank Indicator

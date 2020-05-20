@@ -8,7 +8,7 @@ configuration:
   name: host
   required: true
   type: 0
-- display: Tenant ID (received from the admin consent - see Detailed Instructions
+- display: Tenant ID (received from the admin consent - see Detailed Instructions...
     (?) section)
   name: tenant_id
   required: true

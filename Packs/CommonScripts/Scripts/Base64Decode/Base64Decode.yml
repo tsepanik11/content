@@ -17,7 +17,7 @@ args:
   description: The value to decode in Base64 format.
 outputs:
 - contextPath: Base64.decoded
-  description: The decoded output in Base64 format.
+  description: The decoded output in Base64 format...
   type: string
 - contextPath: Base64.originalValue
   description: The passed value that was decoded.
