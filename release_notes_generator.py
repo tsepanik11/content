@@ -53,13 +53,15 @@ def get_pack_version_from_path(file_path):
 def get_release_notes_dict(release_notes_files):
     release_notes_dict = {}
     for file_path in release_notes_files:
+        pack_version = get_pack_version_from_path(file_path)
         with open(file_path, 'r') as rn:
             release_note = rn.read()
             if release_note and release_note.strip() != IGNORE_RN:
                 pack_name = get_pack_name_from_metdata(file_path)
-                pack_version = get_pack_version_from_path(file_path)
                 release_notes_dict.setdefault(pack_name, {})[pack_version] = release_note
                 print('Adding release note for pack {} {}...'.format(pack_name, pack_version))
+            else:
+                print('Ignoring release note for pack {} {}...'.format(pack_name, pack_version))
     return release_notes_dict
 
 
