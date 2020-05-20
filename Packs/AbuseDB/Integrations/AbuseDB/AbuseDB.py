@@ -9,8 +9,8 @@ import csv
 requests.packages.urllib3.disable_warnings()
 
 
-
 ''' GLOBALS '''
+
 VERBOSE = True
 SERVER = demisto.params().get('server')
 if not SERVER.endswith('/'):
