@@ -18,7 +18,7 @@ RELEASE_NOTES_FILE = 'release-notes-test.md'
 
 def get_all_modified_release_note_files(git_sha1):
     try:
-        diff_cmd = f"git diff --diff-filter=AM --name-only {git_sha1} {PACKS_RN_FILES_FORMAT}"
+        diff_cmd = 'git diff --diff-filter=AM --name-only {} {}'.format(git_sha1, PACKS_RN_FILES_FORMAT)
         diff_result = run_command(diff_cmd, exit_on_error=False)
         release_notes_files = list(filter(None, diff_result.split('\n')))
         return release_notes_files
@@ -64,7 +64,6 @@ def generate_release_notes_summary(release_notes_dict, version, asset_id):
 
     with open(RELEASE_NOTES_FILE, 'w') as outfile:
         outfile.write(release_notes)
-
 
 
 def main():
