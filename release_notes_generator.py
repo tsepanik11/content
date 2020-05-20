@@ -51,6 +51,7 @@ def get_release_notes_dict(release_notes_files):
             if release_note and release_note.strip() != IGNORE_RN:
                 pack_name = get_pack_name_from_metdata(file_path)
                 release_notes_dict[pack_name] = release_notes_dict.get(pack_name, '') + release_note
+                print('Adding release note {} in pack {}...'.format(file_path, pack_name))
     return release_notes_dict
 
 
