@@ -44,10 +44,14 @@ def update_content(content_zip_path, server=None, username=None, password=None, 
                                                                    header_params=header_params, files=files)
 
         if status_code >= 300 or status_code < 200:
-            result_object = ast.literal_eval(response_data)
-            message = result_object['message']
-            msg = "Upload has failed with status code " + str(status_code) + '\n' + message
-            raise Exception(msg)
+            try:
+                result_object = ast.literal_eval(response_data)
+                message = result_object['message']
+                msg = "Upload has failed with status code " + str(status_code) + '\n' + message
+                raise Exception(msg)
+            except ValueError as err:
+                print_error(
+                    'failed to parse response from demisto. response is {}.\nError:\n{}'.format(response_data, err))
         else:
             print('\n"{}" successfully uploaded to server "{}"'.format(content_zip_path, server))
     except Exception as e:
