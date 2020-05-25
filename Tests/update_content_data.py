@@ -49,7 +49,7 @@ def update_content(content_zip_path, server=None, username=None, password=None, 
                 message = result_object['message']
                 msg = "Upload has failed with status code " + str(status_code) + '\n' + message
                 raise Exception(msg)
-            except ValueError as err:
+            except Exception as err:
                 print_error(
                     'failed to parse response from demisto. response is {}.\nError:\n{}'.format(response_data, err))
         else:

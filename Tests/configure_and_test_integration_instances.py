@@ -299,7 +299,7 @@ def get_content_version_details(client, ami_name, prints_manager, thread_index):
 
     try:
         result_object = ast.literal_eval(response_data)
-    except ValueError as err:
+    except Exception as err:
         print_error('failed to parse response from demisto. response is {}.\nError:\n{}'.format(response_data, err))
         return '', 0
 
