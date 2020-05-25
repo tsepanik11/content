@@ -164,6 +164,11 @@ def install_packs(client, host, prints_manager, packs_to_install):
         'ignoreWarnings': True
     }
 
+    # todo: remove
+    msg = str(request_data)
+    prints_manager.add_print_job(msg, print_color, 0, LOG_COLORS.GREEN)
+    prints_manager.execute_thread_prints(0)
+
     # make the pack installation request
     try:
         response_data, status_code, _ = demisto_client.generic_request_func(client,
