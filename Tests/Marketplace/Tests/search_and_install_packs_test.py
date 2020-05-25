@@ -147,4 +147,4 @@ def test_search_and_install_packs_and_their_dependencies(mocker):
     installed_packs = script.search_and_install_packs_and_their_dependencies(bad_pack_ids,
                                                                              client,
                                                                              prints_manager)
-    assert len(installed_packs) == 0
+    assert bad_pack_ids[0] not in installed_packs
