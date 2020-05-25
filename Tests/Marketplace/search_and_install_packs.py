@@ -86,6 +86,11 @@ def get_pack_dependencies(client, prints_manager, pack_data):
             dependencies_data = []
             dependants_ids = [pack_id]
             reseponse_data = ast.literal_eval(response_data).get('dependencies', [])
+
+            msg = pack_id + '\n' + str(reseponse_data)
+            prints_manager.add_print_job(msg, print_color, 0, LOG_COLORS.GREEN)
+            prints_manager.execute_thread_prints(0)
+
             create_dependencies_data_structure(reseponse_data, dependants_ids, dependencies_data, dependants_ids)
             dependencies_str = ', '.join([dep['id'] for dep in dependencies_data])
             if dependencies_data:
