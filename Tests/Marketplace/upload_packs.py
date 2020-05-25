@@ -405,7 +405,7 @@ def load_json(file_path):
     for i in range(10):
         if os.path.isfile(file_path):
             break
-        time.sleep(5)
+        time.sleep(1)
     with open(file_path, 'r') as json_file:
         result = json.load(json_file)
 
