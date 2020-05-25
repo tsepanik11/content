@@ -1,5 +1,5 @@
 import demisto_client
-import search_and_install_packs as script
+import Tests.Marketplace.search_and_install_packs as script
 from Tests.test_content import ParallelPrintsManager
 
 BASE_URL = 'http://123-fake-api.com'
