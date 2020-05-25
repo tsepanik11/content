@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import os
 import ast
 import json
 import demisto_client
@@ -8,7 +9,8 @@ from demisto_sdk.commands.common.tools import print_color, LOG_COLORS, run_threa
 
 
 def get_pack_display_name(pack_id):
-    if pack_id:
+    metadata_path = './Packs/{}/pack_metadata.json'
+    if pack_id and os.path.isfile(metadata_path):
         with open('./Packs/{}/pack_metadata.json'.format(pack_id), 'r') as json_file:
             pack_metadata = json.load(json_file)
         return pack_metadata.get('name')
@@ -201,20 +203,21 @@ def search_pack_and_its_dependencies(client, prints_manager, pack_id, packs_to_i
         lock (Lock): A lock object.
     """
     pack_display_name = get_pack_display_name(pack_id)
-    pack_data = search_pack(client, prints_manager, pack_display_name)
+    if pack_id:
+        pack_data = search_pack(client, prints_manager, pack_display_name)
 
-    if pack_data:
-        dependencies = get_pack_dependencies(client, prints_manager, pack_data)
+        if pack_data:
+            dependencies = get_pack_dependencies(client, prints_manager, pack_data)
 
-        current_packs_to_install = [pack_data]
-        current_packs_to_install.extend(dependencies)
+            current_packs_to_install = [pack_data]
+            current_packs_to_install.extend(dependencies)
 
-        lock.acquire()
-        for pack in current_packs_to_install:
-            if pack['id'] not in packs_to_install:
-                packs_to_install.append(pack['id'])
-                installation_request_body.append(pack)
-        lock.release()
+            lock.acquire()
+            for pack in current_packs_to_install:
+                if pack['id'] not in packs_to_install:
+                    packs_to_install.append(pack['id'])
+                    installation_request_body.append(pack)
+            lock.release()
 
 
 def add_pack_to_installation_request(pack_id, installation_request_body):
