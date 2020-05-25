@@ -95,7 +95,7 @@ def mocked_get_pack_display_name(pack_id):
     if pack_id == 'HelloWorld':
         return 'HelloWorld'
     elif pack_id == 'AzureSentinel':
-        return 'Azure Sentinel'
+        return 'AzureSentinel'
     return ''
 
 
