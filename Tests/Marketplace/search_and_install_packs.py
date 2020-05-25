@@ -428,6 +428,10 @@ def search_and_install_packs_and_their_dependencies(pack_ids, client, prints_man
         {
             "id": "DeveloperTools",
             "version": "1.0.0"
+        },
+        {
+            "id": "XFE",
+            "version": "1.0.0"
         }
     ]
     install_packs(client, host, prints_manager, installation_request_body)
