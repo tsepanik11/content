@@ -403,7 +403,7 @@ def load_json(file_path):
 
     """
     from time import sleep
-    for i in range(100):
+    for i in range(300):
         if os.path.isfile(file_path):
             break
         sleep(1)
