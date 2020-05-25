@@ -48,6 +48,10 @@ def create_dependencies_data_structure(response_data, dependants_ids, dependenci
         dependants = dependency.get('dependants', {})
         for dependant in dependants.keys():
             is_required = dependants[dependant].get('level', '') == 'required'
+
+            msg = "is required: " + str(is_required) + "\n" + "dependency: " + dependency.get('id')
+            prints_manager.add_print_job(msg, print_color, 0, LOG_COLORS.GREEN)
+            prints_manager.execute_thread_prints(0)
             if dependant in dependants_ids and is_required and dependency.get('id') not in checked_packs:
                 dependencies_data.append({
                     'id': dependency.get('id'),
@@ -55,10 +59,6 @@ def create_dependencies_data_structure(response_data, dependants_ids, dependenci
                 })
                 next_call_dependants_ids.append(dependency.get('id'))
                 checked_packs.append(dependency.get('id'))
-
-                msg = dependency.get('id')
-                prints_manager.add_print_job(msg, print_color, 0, LOG_COLORS.GREEN)
-                prints_manager.execute_thread_prints(0)
 
     if next_call_dependants_ids:
         create_dependencies_data_structure(response_data, next_call_dependants_ids, dependencies_data, checked_packs)
@@ -269,6 +269,160 @@ def search_and_install_packs_and_their_dependencies(pack_ids, client, prints_man
         threads_list.append(thread)
     run_threads_list(threads_list)
 
+    installation_request_body = [
+        {
+            "id": "CommonScripts",
+            "version": "1.1.1"
+        },
+        {
+            "id": "DemistoRESTAPI",
+            "version": "1.0.0"
+        },
+        {
+            "id": "CommonPlaybooks",
+            "version": "1.0.1"
+        },
+        {
+            "id": "JoeSecurity",
+            "version": "1.0.0"
+        },
+        {
+            "id": "ML",
+            "version": "1.0.0"
+        },
+        {
+            "id": "SNDBOX",
+            "version": "1.0.0"
+        },
+        {
+            "id": "Cylance_Protect",
+            "version": "1.0.0"
+        },
+        {
+            "id": "EWS",
+            "version": "1.0.0"
+        },
+        {
+            "id": "CuckooSandbox",
+            "version": "1.0.0"
+        },
+        {
+            "id": "CheckpointFirewall",
+            "version": "1.0.0"
+        },
+        {
+            "id": "VulnDB",
+            "version": "1.0.0"
+        },
+        {
+            "id": "PAN-OS",
+            "version": "1.0.0"
+        },
+        {
+            "id": "Zscaler",
+            "version": "1.0.0"
+        },
+        {
+            "id": "Lastline",
+            "version": "1.0.0"
+        },
+        {
+            "id": "ThreatGrid",
+            "version": "1.0.0"
+        },
+        {
+            "id": "ImageOCR",
+            "version": "1.0.0"
+        },
+        {
+            "id": "VirusTotal-Private_API",
+            "version": "1.0.0"
+        },
+        {
+            "id": "fireeye",
+            "version": "1.0.0"
+        },
+        {
+            "id": "D2",
+            "version": "1.0.0"
+        },
+        {
+            "id": "HybridAnalysis",
+            "version": "1.0.0"
+        },
+        {
+            "id": "rasterize",
+            "version": "1.0.0"
+        },
+        {
+            "id": "McAfee_Advanced_Threat_Defense",
+            "version": "1.0.0"
+        },
+        {
+            "id": "Palo_Alto_Networks_WildFire",
+            "version": "1.0.0"
+        },
+        {
+            "id": "CalculateTimeDifference",
+            "version": "1.0.0"
+        },
+        {
+            "id": "CortexXDR",
+            "version": "1.0.0"
+        },
+        {
+            "id": "CrowdStrikeFalconSandbox",
+            "version": "1.0.0"
+        },
+        {
+            "id": "Cisco-umbrella",
+            "version": "1.0.0"
+        },
+        {
+            "id": "Phishing",
+            "version": "1.1.0"
+        },
+        {
+            "id": "Threat_Crowd",
+            "version": "1.0.0"
+        },
+        {
+            "id": "AutoFocus",
+            "version": "1.0.0"
+        },
+        {
+            "id": "Gmail",
+            "version": "1.0.0"
+        },
+        {
+            "id": "Active_Directory_Query",
+            "version": "1.0.0"
+        },
+        {
+            "id": "ipinfo",
+            "version": "1.0.0"
+        },
+        {
+            "id": "HelloWorld",
+            "version": "1.1.1"
+        },
+        {
+            "id": "Expanse",
+            "version": "1.0.1"
+        },
+        {
+            "id": "TIM_Processing",
+            "version": "1.0.0"
+        },
+        {
+            "id": "ImpossibleTraveler",
+            "version": "1.0.1"
+        },
+        {
+            "id": "Base",
+            "version": "1.0.1"
+        }
+    ]
     install_packs(client, host, prints_manager, installation_request_body)
 
     return packs_to_install
