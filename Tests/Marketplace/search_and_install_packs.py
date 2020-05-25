@@ -87,6 +87,11 @@ def get_pack_dependencies(client, prints_manager, pack_data):
         )
 
         if 200 <= status_code < 300:
+            dep_data = pack_id + "dependencies response:\n" + str(response_data)
+            prints_manager.add_print_job(dep_data, print_color, 0, LOG_COLORS.GREEN)
+            prints_manager.execute_thread_prints(0)
+
+
             dependencies_data = []
             dependants_ids = [pack_id]
             reseponse_data = ast.literal_eval(response_data).get('dependencies', [])
