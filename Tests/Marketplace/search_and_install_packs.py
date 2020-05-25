@@ -27,7 +27,7 @@ def get_pack_data_from_results(search_results, pack_display_name):
     return {}
 
 
-def create_dependencies_data_structure(response_data, dependants_ids, dependencies_data, checked_packs):
+def create_dependencies_data_structure(response_data, dependants_ids, dependencies_data, checked_packs, prints_manager):
     """ Recursively creates the packs' dependencies data structure for the installation requests
     (only required and uninstalled).
 
@@ -55,6 +55,10 @@ def create_dependencies_data_structure(response_data, dependants_ids, dependenci
                 })
                 next_call_dependants_ids.append(dependency.get('id'))
                 checked_packs.append(dependency.get('id'))
+
+                msg = dependency.get('id')
+                prints_manager.add_print_job(msg, print_color, 0, LOG_COLORS.GREEN)
+                prints_manager.execute_thread_prints(0)
 
     if next_call_dependants_ids:
         create_dependencies_data_structure(response_data, next_call_dependants_ids, dependencies_data, checked_packs)
@@ -87,11 +91,7 @@ def get_pack_dependencies(client, prints_manager, pack_data):
             dependants_ids = [pack_id]
             reseponse_data = ast.literal_eval(response_data).get('dependencies', [])
 
-            msg = pack_id + '\n' + str(reseponse_data)
-            prints_manager.add_print_job(msg, print_color, 0, LOG_COLORS.GREEN)
-            prints_manager.execute_thread_prints(0)
-
-            create_dependencies_data_structure(reseponse_data, dependants_ids, dependencies_data, dependants_ids)
+            create_dependencies_data_structure(reseponse_data, dependants_ids, dependencies_data, dependants_ids, prints_manager)
             dependencies_str = ', '.join([dep['id'] for dep in dependencies_data])
             if dependencies_data:
                 message = 'Found the following dependencies for pack {}:\n{}\n'.format(pack_id, dependencies_str)
