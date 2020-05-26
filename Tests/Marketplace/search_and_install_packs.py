@@ -202,8 +202,17 @@ def search_pack_and_its_dependencies(client, prints_manager, pack_id, packs_to_i
         installation_request_body (list): A list of packs to be installed, in the request format.
         lock (Lock): A lock object.
     """
+    message = 'pack id: ' + str(pack_id)
+    prints_manager.add_print_job(message, print_color, 0, LOG_COLORS.GREEN)
+    prints_manager.execute_thread_prints(0)
+
     pack_display_name = get_pack_display_name(pack_id)
-    if pack_id:
+
+    message = 'pack display name: ' + str(pack_display_name)
+    prints_manager.add_print_job(message, print_color, 0, LOG_COLORS.GREEN)
+    prints_manager.execute_thread_prints(0)
+
+    if pack_display_name:
         pack_data = search_pack(client, prints_manager, pack_display_name)
 
         if pack_data:
@@ -241,6 +250,10 @@ def search_and_install_packs_and_their_dependencies(pack_ids, client, prints_man
     """
     lock = Lock()
     threads_list = []
+
+    message = str(pack_ids)
+    prints_manager.add_print_job(message, print_color, 0, LOG_COLORS.GREEN)
+    prints_manager.execute_thread_prints(0)
 
     packs_to_install = ['Base', 'DeveloperTools']  # we save all the packs we want to install, to avoid duplications
     installation_request_body = []  # the packs to install, in the request format
