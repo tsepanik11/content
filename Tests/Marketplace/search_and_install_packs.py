@@ -9,12 +9,10 @@ from demisto_sdk.commands.common.tools import print_color, LOG_COLORS, run_threa
 
 
 def get_pack_display_name(pack_id):
-    metadata_path = './Packs/{}/pack_metadata.json'
-    print(metadata_path)
+    metadata_path = './Packs/{}/pack_metadata.json'.format(pack_id)
     if pack_id and os.path.isfile(metadata_path):
-        print(metadata_path + " is a file!")
-        with open('./Packs/{}/pack_metadata.json'.format(pack_id), 'r') as json_file:
-            pack_metadata = json.load(json_file)
+        with open(metadata_path, 'r') as json_file:
+            pack_metadata = json.loads(json_file)
         return pack_metadata.get('name')
     return ''
 
