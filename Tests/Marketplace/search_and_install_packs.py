@@ -12,7 +12,7 @@ def get_pack_display_name(pack_id):
     metadata_path = './Packs/{}/pack_metadata.json'.format(pack_id)
     if pack_id and os.path.isfile(metadata_path):
         with open(metadata_path, 'r') as json_file:
-            pack_metadata = json.loads(json_file)
+            pack_metadata = json.load(json_file)
         return pack_metadata.get('name')
     return ''
 
@@ -242,10 +242,6 @@ def search_and_install_packs_and_their_dependencies(pack_ids, client, prints_man
     """
     lock = Lock()
     threads_list = []
-
-    message = str(pack_ids)
-    prints_manager.add_print_job(message, print_color, 0, LOG_COLORS.GREEN)
-    prints_manager.execute_thread_prints(0)
 
     packs_to_install = ['Base', 'DeveloperTools']  # we save all the packs we want to install, to avoid duplications
     installation_request_body = []  # the packs to install, in the request format
