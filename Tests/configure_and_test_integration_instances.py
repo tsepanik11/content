@@ -753,14 +753,10 @@ def main():
 
     if LooseVersion(server_numeric_version) >= LooseVersion('6.0.0'):
         with open('./Tests/content_packs_to_install.txt', 'r') as packs_stream:
-            msg = packs_stream.read()
-            prints_manager.add_print_job(msg, print_warning, 0)
-            prints_manager.execute_thread_prints(0)
+            packs_list = packs_stream.readlines()
+            pack_ids = [pack_id.rstrip('\n') for pack_id in packs_list]
 
-            pack_ids = [pack_id.rstrip('\n') for pack_id in packs_stream.readlines()]
-
-            msg = str(pack_ids)
-            prints_manager.add_print_job(msg, print_warning, 0)
+            prints_manager.add_print_job(str(pack_ids), print_warning, 0)
             prints_manager.execute_thread_prints(0)
 
         # install content packs in every server
