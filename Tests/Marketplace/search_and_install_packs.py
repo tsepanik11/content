@@ -10,7 +10,9 @@ from demisto_sdk.commands.common.tools import print_color, LOG_COLORS, run_threa
 
 def get_pack_display_name(pack_id):
     metadata_path = './Packs/{}/pack_metadata.json'
+    print(metadata_path)
     if pack_id and os.path.isfile(metadata_path):
+        print(metadata_path + " is a file!")
         with open('./Packs/{}/pack_metadata.json'.format(pack_id), 'r') as json_file:
             pack_metadata = json.load(json_file)
         return pack_metadata.get('name')
@@ -202,15 +204,7 @@ def search_pack_and_its_dependencies(client, prints_manager, pack_id, packs_to_i
         installation_request_body (list): A list of packs to be installed, in the request format.
         lock (Lock): A lock object.
     """
-    message = 'pack id: ' + str(pack_id)
-    prints_manager.add_print_job(message, print_color, 0, LOG_COLORS.GREEN)
-    prints_manager.execute_thread_prints(0)
-
     pack_display_name = get_pack_display_name(pack_id)
-
-    message = 'pack display name: ' + str(pack_display_name)
-    prints_manager.add_print_job(message, print_color, 0, LOG_COLORS.GREEN)
-    prints_manager.execute_thread_prints(0)
 
     if pack_display_name:
         pack_data = search_pack(client, prints_manager, pack_display_name)
