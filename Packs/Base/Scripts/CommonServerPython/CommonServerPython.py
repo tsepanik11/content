@@ -149,6 +149,7 @@ class DBotScoreType(object):
     FILE = 'file'
     DOMAIN = 'domain'
     URL = 'url'
+    CVE = 'cve'
 
     def __init__(self):
         # required to create __init__ for create_server_docs.py purpose
@@ -162,7 +163,8 @@ class DBotScoreType(object):
             DBotScoreType.IP,
             DBotScoreType.FILE,
             DBotScoreType.DOMAIN,
-            DBotScoreType.URL
+            DBotScoreType.URL,
+            DBotScoreType.CVE
         )
 
 
@@ -2254,6 +2256,11 @@ class Common(object):
             self.published = published
             self.modified = modified
             self.description = description
+            self.dbot_score = None
+
+        def set_dbot_score(self, dbot_score):
+            # type: (Common.DBotScore) -> None
+            self.dbot_score = dbot_score
 
         def to_context(self):
             cve_context = {
@@ -2272,9 +2279,18 @@ class Common(object):
             if self.description:
                 cve_context['Description'] = self.description
 
+            if self.dbot_score and self.dbot_score.score == Common.DBotScore.BAD:
+                cve_context['Malicious'] = {
+                    'Vendor': self.dbot_score.integration_name,
+                    'Description': self.dbot_score.malicious_description
+                }
+
             ret_value = {
                 Common.CVE.CONTEXT_PATH: cve_context
             }
+
+            if self.dbot_score:
+                ret_value.update(self.dbot_score.to_context())
 
             return ret_value
 
