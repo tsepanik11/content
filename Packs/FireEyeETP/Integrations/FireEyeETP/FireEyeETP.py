@@ -395,13 +395,13 @@ def alert_readable_data(alert):
 def malware_readable_data(malware):
 
     return {
-        'Name': malware['name'],
+        'Name': malware.get('name'),
         'Domain': malware.get('domain'),
-        'Downloaded At': malware['downloaded_at'],
-        'Executed At': malware['executed_at'],
-        'Type': malware['stype'],
-        'Submitted At': malware['submitted_at'],
-        'SID': malware['sid']
+        'Downloaded At': malware.get('downloaded_at'),
+        'Executed At': malware.get('executed_at'),
+        'Type': malware.get('stype'),
+        'Submitted At': malware.get('submitted_at'),
+        'SID': malware.get('sid')
     }
 
 
@@ -513,7 +513,8 @@ def get_alert_command():
 
     # get raw data
     alert_raw = get_alert_request(demisto.args()['alert_id'])
-
+    LOG(alert_raw)
+    LOG.print_log()
     if alert_raw:
         # create context data
         alert_context = alert_context_data(alert_raw)
@@ -595,11 +596,13 @@ def fetch_incidents():
         size=100,
         raw_response=True
     )
+    LOG(alerts_raw_response)
+    LOG.print_log()
     # end if no results returned
-    if not alerts_raw_response or 'data' not in alerts_raw_response.keys():
+    if not alerts_raw_response or not alerts_raw_response.get('data'):
         return
 
-    alerts = alerts_raw_response['data']
+    alerts = alerts_raw_response.get('data', [])
     last_alert_created = parse_string_in_iso_format_to_datetime(last_run['last_created'])
     alert_creation_limit = parse_string_in_iso_format_to_datetime(last_run['last_created'])
     incidents = []
