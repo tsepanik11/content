@@ -134,15 +134,8 @@ def generate_indicators(data: list) -> list:
                                 cvss=cve.get('CVSS'),
                                 published=cve.get('Published'),
                                 modified=cve.get('Modified'),
-                                description=cve.get('Description'))
-
-        dbot_score = Common.DBotScore(
-            indicator=cve_object.id,
-            indicator_type=DBotScoreType.CVE,
-            integration_name='CVE Search v2',
-            score=0
-        )
-        cve_object.set_dbot_score(dbot_score)
+                                description=cve.get('Description')
+                                )
         indicators.append(cve_object)
     return indicators
 

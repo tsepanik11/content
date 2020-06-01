@@ -338,7 +338,7 @@ def handle_proxy(proxy_param_name='proxy', checkbox_default_value=False, handle_
         Should usually be called at the beginning of the integration, depending on proxy checkbox state.
 
         Additionally will unset env variables REQUESTS_CA_BUNDLE and CURL_CA_BUNDLE if handle_insecure is speficied (default).
-        This is needed as when these variables are set and a requests.Session object is used, requests will ignore the 
+        This is needed as when these variables are set and a requests.Session object is used, requests will ignore the
         Sesssion.verify setting. See: https://github.com/psf/requests/blob/master/requests/sessions.py#L703
 
         :type proxy_param_name: ``string``
@@ -1862,6 +1862,15 @@ def is_ip_valid(s, accept_v6_ips=False):
         return True
 
 
+def get_integration_name():
+    """
+    Getting calling integration's name
+    :return: Calling integration's name
+    :rtype: ``str``
+    """
+    return demisto.callingContext.get('IntegrationBrand')
+
+
 class Common(object):
     class Indicator(object):
         """
@@ -1913,7 +1922,7 @@ class Common(object):
 
             self.indicator = indicator
             self.indicator_type = indicator_type
-            self.integration_name = integration_name
+            self.integration_name = integration_name or get_integration_name()
             self.score = score
             self.malicious_description = malicious_description
 
@@ -2256,11 +2265,12 @@ class Common(object):
             self.published = published
             self.modified = modified
             self.description = description
-            self.dbot_score = None
-
-        def set_dbot_score(self, dbot_score):
-            # type: (Common.DBotScore) -> None
-            self.dbot_score = dbot_score
+            self.dbot_score = Common.DBotScore(
+                indicator=id,
+                indicator_type=DBotScoreType.CVE,
+                integration_name=None,
+                score=Common.DBotScore.NONE
+            )
 
         def to_context(self):
             cve_context = {
@@ -2278,12 +2288,6 @@ class Common(object):
 
             if self.description:
                 cve_context['Description'] = self.description
-
-            if self.dbot_score and self.dbot_score.score == Common.DBotScore.BAD:
-                cve_context['Malicious'] = {
-                    'Vendor': self.dbot_score.integration_name,
-                    'Description': self.dbot_score.malicious_description
-                }
 
             ret_value = {
                 Common.CVE.CONTEXT_PATH: cve_context
