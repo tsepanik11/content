@@ -1,4 +1,12 @@
-version: 2
+version: 2.1
+parameters:
+  non_ami_run:
+    type: string
+    default: ""
+  artifact_build_num:
+    type: string
+    default: ""
+
 references:
   container_config: &container_config
     docker:
@@ -52,7 +60,8 @@ references:
         git config diff.renameLimit 6000
 
         echo "========== Build Parameters =========="
-        echo "Parameters: NIGHTLY: $NIGHTLY, INSTANCE_TESTS: $INSTANCE_TESTS, NON_AMI_RUN: $NON_AMI_RUN, SERVER_BRANCH_NAME: $SERVER_BRANCH_NAME, ARTIFACT_BUILD_NUM: $ARTIFACT_BUILD_NUM"
+        echo "ARTIFACT_BUILD_NUM: $ARTIFACT_BUILD_NUM"
+        echo "Parameters: NIGHTLY: $NIGHTLY, INSTANCE_TESTS: $INSTANCE_TESTS, non_ami_run: << pipeline.parameters.non_ami_run >>, SERVER_BRANCH_NAME: $SERVER_BRANCH_NAME, artifact_build_num: << pipeline.parameters.artifact_build_num >>"
         python --version
         python3 --version
         demisto-sdk --version
@@ -98,6 +107,9 @@ references:
       CONTENT_VERSION: "20.5.3"
       SERVER_VERSION: "5.5.0"
       GIT_SHA1: "bb4ac8b7943a6cba0c22935ebad6b6e17939840d" # guardrails-disable-line disable-secrets-detection
+      NON_AMI_RUN: << pipeline.parameters.non_ami_run >>
+      ARTIFACT_BUILD_NUM: << pipeline.parameters.artifact_build_num >>
+
 
   persist_to_workspace: &persist_to_workspace
     persist_to_workspace:
