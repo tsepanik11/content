@@ -1,0 +1,16 @@
+{
+    "name": "Rapid7 InsightVM",
+    "description": "Integration for Rapid7's InsightVM SaaS service",
+    "support": "community",
+    "currentVersion": "1.0.0",
+    "author": "TSepanik",
+    "url": "",
+    "email": "",
+    "created": "2020-06-03T22:42:54Z",
+    "categories": [
+        "Vulnerability Management"
+    ],
+    "tags": [],
+    "useCases": [],
+    "keywords": []
+}
